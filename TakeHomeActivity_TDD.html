@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Take Home Activity — TDD Lab</title>
+  <style>
+    :root{--ink:#0f172a;--muted:#475569;--accent:#06b6d4;--bg:#f8fafc;--line:#e6eef6}
+    body{font-family:Inter, 'Segoe UI', Roboto, Arial, sans-serif;background:var(--bg);color:var(--ink);margin:0;padding:24px}
+    .page{max-width:980px;margin:0 auto;background:#fff;padding:28px;border-radius:12px;box-shadow:0 10px 30px rgba(2,6,23,.08)}
+    h1,h2,h3{color:var(--accent);margin:8px 0}
+    .def-box{border-left:4px solid var(--accent);background:#f0fafe;padding:12px 16px;border-radius:8px;margin:12px 0}
+    .task{border:1px solid var(--line);padding:14px;border-radius:10px;margin:14px 0;background:#fbfdff}
+    .answer{border:1px dashed var(--muted);padding:10px;margin:8px 0;min-height:80px;outline:none;background:#fff}
+    .editable{min-height:100px}
+    pre,code{background:#f3f4f6;padding:8px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, 'Roboto Mono', monospace}
+    pre{overflow:auto;min-height:60px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .col{flex:1 1 320px}
+    table{width:100%;border-collapse:collapse;margin:12px 0}
+    th,td{border:1px solid var(--line);padding:8px;text-align:left}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    textarea{width:100%;min-height:120px;padding:10px;border-radius:8px;border:1px solid var(--line);font-family:inherit}
+    .meta{font-size:0.95rem;color:var(--muted)}
+    .hint{font-size:0.9rem;color:var(--muted);margin-top:6px}
+    .badge{display:inline-block;background:#eef; color:var(--accent);padding:4px 8px;border-radius:999px;font-weight:600;margin-left:6px}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Take home activity - Test Driven Development</h1>
+    <p class="meta"><strong>Focus:</strong> Practice TDD by building small, testable slices of an e‑commerce platform. Follow Red → Green → Refactor for each requirement and produce short test logs / explanations.</p>
+
+    <h2>Project Setup Suggestions</h2>
+    <ul>
+      <li>Create a small repo with separate folders for <code>src/</code> and <code>tests/</code>.</li>
+      <li>Keep implementations tiny — one function / class per file so unit tests remain focused.</li>
+      <li>Use mocks/stubs for external systems (payment gateway, inventory API) during early exercises.</li>
+      <li>CI note: Add a minimal workflow to run tests on push as a bonus exercise.</li>
+    </ul>
+
+    <h2>Activity — Requirements (work through each using TDD)</h2>
+
+    <div class="task">
+      <h3>Requirement A — Product Model & Catalog</h3>
+      <p>Build a minimal <code>Product</code> model and a <code>Catalog</code> that can add and search products by SKU.</p>
+      <p><strong>Behaviour to cover with tests:</strong></p>
+      <ul>
+        <li>Creating a product requires <code>sku</code>, <code>name</code>, and <code>price</code> (non‑negative).</li>
+        <li>Catalog can add products and return a product by <code>sku</code>.</li>
+        <li>Searching for a missing SKU returns <code>null</code> / <code>None</code> / <code>undefined</code>.</li>
+      </ul>
+
+      <h4>RED — Failing Test</h4>
+      <pre contenteditable="true" class="answer editable"># Paste failing test for Product/Catalog here (e.g., test_create_product_fails_when_price_missing)</pre>
+      <h4>Test Output (RED)</h4>
+      <div contenteditable="true" class="answer">Paste failing test output here (show FAIL)</div>
+
+      <h4>GREEN — Minimal Implementation</h4>
+      <div class="code-block">
+        <pre contenteditable="true" class="answer editable"># Minimal Product and Catalog implementation (paste code that makes the test pass)</pre>
+      </div>
+      <h4>Test Output (GREEN)</h4>
+      <div contenteditable="true" class="answer">Paste passing test output here (show PASS)</div>
+
+      <h4>REFACTOR</h4>
+      <div contenteditable="true" class="answer editable">Refactored code or notes.</div>
+
+      <div class="hint small">Hints: Keep Product validation separate from Catalog logic. Prefer value objects for price to simplify later discount calculations.</div>
+    </div>
+
+    <div class="task">
+      <h3>Requirement B — Shopping Cart: Add / Remove / Total</h3>
+      <p>Implement a <code>Cart</code> that lets you add line items (product SKU + quantity), remove items, and compute the cart total.</p>
+      <ul>
+        <li>Adding a product not in the catalog should raise / return an error.</li>
+        <li>Quantity must be an integer &gt; 0.</li>
+        <li>Total sums (price * quantity) across items.</li>
+      </ul>
+
+      <h4>RED — Failing Test</h4>
+      <pre contenteditable="true" class="answer editable"># Failing tests: add_item, remove_item, total_calculation</pre>
+      <h4>Test Output (RED)</h4>
+      <div contenteditable="true" class="answer">Failing output here</div>
+
+      <h4>GREEN — Minimal Implementation</h4>
+      <pre contenteditable="true" class="answer editable"># Minimal Cart implementation to pass the tests (handle add/remove/total)</pre>
+      <h4>Test Output (GREEN)</h4>
+      <div contenteditable="true" class="answer">Passing output here</div>
+
+      <h4>REFACTOR</h4>
+      <div contenteditable="true" class="answer editable">Refactor: e.g., extract LineItem class, validate negative prices/quantities</div>
+
+      <div class="hint small">Testing tip: mock Catalog lookups in Cart tests so cart tests focus only on cart behaviour.</div>
+    </div>
+
+    <div class="task">
+      <h3>Requirement C — Inventory Reservation</h3>
+      <p>Add inventory checks when adding items to the cart. The inventory service exposes <code>getAvailable(sku)</code>.</p>
+      <ul>
+        <li>When adding items, ensure requested quantity &le; available quantity.</li>
+        <li>Write tests that simulate low inventory using mocks/stubs.</li>
+        <li>If inventory insufficient, the add operation should fail with a clear error.</li>
+      </ul>
+
+      <h4>RED — Failing Test</h4>
+      <pre contenteditable="true" class="answer editable"># Test that adding more than available triggers a failure (mock inventory)</pre>
+      <h4>Test Output (RED)</h4>
+      <div contenteditable="true" class="answer">Failing output here</div>
+
+      <h4>GREEN — Minimal Implementation</h4>
+      <pre contenteditable="true" class="answer editable"># Minimal cart change: call inventory.getAvailable(sku) and reject if insufficient</pre>
+      <h4>Test Output (GREEN)</h4>
+      <div contenteditable="true" class="answer">Passing output here</div>
+
+      <h4>REFACTOR</h4>
+      <div contenteditable="true" class="answer editable">Refactor notes: extract InventoryGateway interface to make tests easier</div>
+
+      <div class="hint small">Use dependency injection to provide a fake inventory service in tests.</div>
+    </div>
+
+    <div class="task">
+      <h3>Requirement D — Discount Rules</h3>
+      <p>Introduce a discount engine with rules that can apply to the cart. Start with two rules:</p>
+      <ol>
+        <li><strong>Bulk discount:</strong> If quantity &gt;= 10 for a single SKU, apply 10% off that line.</li>
+        <li><strong>Order discount:</strong> If cart total &gt;= 1000, apply a 5% discount to the order subtotal.</li>
+      </ol>
+
+      <h4>RED — Failing Test</h4>
+      <pre contenteditable="true" class="answer editable"># Tests for bulk discount and order discount (failing)</pre>
+      <h4>Test Output (RED)</h4>
+      <div contenteditable="true" class="answer">Failing output here</div>
+
+      <h4>GREEN — Minimal Implementation</h4>
+      <pre contenteditable="true" class="answer editable"># Implement discount engine to make tests pass (keep it pluggable for new rules)</pre>
+      <h4>Test Output (GREEN)</h4>
+      <div contenteditable="true" class="answer">Passing output here</div>
+
+      <h4>REFACTOR</h4>
+      <div contenteditable="true" class="answer editable">Refactor: make rules configurable, extract strategy pattern</div>
+
+      <div class="hint small">Keep discount rule implementations small and unit-test each rule separately.</div>
+    </div>
+
+    <div class="task">
+      <h3>Requirement E — Checkout Validation & Payment</h3>
+      <p>Implement a simple checkout flow that validates the cart and attempts to charge a payment gateway client.</p>
+      <ul>
+        <li>Checkout should: validate items are still available, compute final total (after discounts), and call <code>paymentGateway.charge(amount, token)</code>.</li>
+        <li>Use a fake payment gateway in tests to simulate success and failure.</li>
+        <li>On payment failure, the checkout should return a meaningful error and not create an order record.</li>
+      </ul>
+
+      <h4>RED — Failing Test</h4>
+      <pre contenteditable="true" class="answer editable"># Tests for successful checkout and for payment failure (failing)</pre>
+      <h4>Test Output (RED)</h4>
+      <div contenteditable="true" class="answer">Failing output here</div>
+
+      <h4>GREEN — Minimal Implementation</h4>
+      <pre contenteditable="true" class="answer editable"># Minimal checkout implementation using injected payment gateway (make simple happy path pass)</pre>
+      <h4>Test Output (GREEN)</h4>
+      <div contenteditable="true" class="answer">Passing output here</div>
+
+      <h4>REFACTOR</h4>
+      <div contenteditable="true" class="answer editable">Refactor: split validation, payment, and order creation into services</div>
+
+      <div class="hint small">Design checkout as an application service orchestrating smaller units. Unit test units in isolation and write a couple of integration tests for the orchestration.</div>
+    </div>
+
+    <div class="task">
+      <h3>Requirement F — Order History & Simple Persistence</h3>
+      <p>When checkout succeeds, create a minimal Order record with line items, total, and timestamp. Provide a repository interface that can be faked for tests.</p>
+      <h4>RED — Failing Test</h4>
+      <pre contenteditable="true" class="answer editable"># Test that successful checkout creates an order (use fake repo)</pre>
+      <h4>Test Output (RED)</h4>
+      <div contenteditable="true" class="answer">Failing output here</div>
+      <h4>GREEN — Minimal Implementation</h4>
+      <pre contenteditable="true" class="answer editable"># Save an Order object to the fake repository on success</pre>
+      <h4>Test Output (GREEN)</h4>
+      <div contenteditable="true" class="answer">Passing output here</div>
+      <h4>REFACTOR</h4>
+      <div contenteditable="true" class="answer editable">Refactor: map domain objects to persistence model, add basic serialization</div>
+    </div>
+
+    <h2>Advanced / Extension Challenges (optional)</h2>
+    <ul>
+      <li>Property‑based testing for cart totals (e.g., Hypothesis / fast-check).</li>
+      <li>Introduce concurrency tests for inventory reservation (simulate two carts reserving same SKU).</li>
+      <li>Add integration tests that spin up a minimal in‑memory DB (SQLite / in‑memory) and run the checkout flow end‑to‑end.</li>
+      <li>Set up a CI workflow that runs tests and fails the build on regressions.</li>
+    </ul>
+
+    <h2>Testing & Submission Checklist</h2>
+    <ol>
+      <li>For each requirement: include RED (test + failing output), GREEN (implementation + passing output), REFACTOR (refactored code + passing output), and short reflection (what changed, why).</li>
+      <li>Keep tests small and focused — one assertion per behavioural test when possible.</li>
+      <li>Export this filled worksheet to PDF and submit to the course web along with your test repo link.</li>
+    </ol>
+  </div>
+</body>
+</html>
